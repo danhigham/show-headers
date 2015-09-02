@@ -2,12 +2,15 @@ require 'socket'
 
 run Proc.new { |env|
 
-  headers = env.select {|k,v| k.start_with? 'HTTP_'}
-    .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+  headers = env
     .collect {|pair| pair.join(": ") << "<br>"}
-    .sort
+    .sort.join
 
-  headers << Socket::getaddrinfo(Socket.gethostname,"echo",Socket::AF_INET)[0][3]
+  env_vars = ENV
+    .collect {|pair| pair.join(": ") << "<br>"}
+    .sort.join
 
-  [200, {"Content-Type" => "text/html"}, headers]
+  headers << "---<br>" << env_vars
+  
+  [200, {"Content-Type" => "text/html"}, [headers]]
 }
