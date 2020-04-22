@@ -1,0 +1,6 @@
+---
+applications:
+  - name: show-headers
+    random-route: true
+    buildpack: ruby_buildpack
+    memory: 128M

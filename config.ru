@@ -1,4 +1,7 @@
 require 'socket'
+require 'rack/deflater'
+
+use Rack::Deflater
 
 run Proc.new { |env|
 
@@ -11,6 +14,6 @@ run Proc.new { |env|
     .sort.join
 
   headers << "---<br>" << env_vars
-  
+  sleep(1.5) 
   [200, {"Content-Type" => "text/html"}, [headers]]
 }
